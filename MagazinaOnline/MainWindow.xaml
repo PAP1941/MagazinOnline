@@ -1,12 +1,213 @@
-﻿<Window x:Class="MagazinaOnline.MainWindow"
+﻿<Window x:Class="AppMagazin.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MagazinaOnline"
+        xmlns:local="clr-namespace:AppMagazin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Magazin" Height="550" 
+        Width="800" FontSize="20">
+    <Window.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Menu FontSize="20"
+                  Margin="5"
+                  Padding="5"
+                  Background="LightGray">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Save" Click="Save_Click"/>
+                    <MenuItem Header="_Load" Click="Load_Click"/>
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="Exit_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Produse">
+                    <MenuItem Header="_Adaugă produs" Click="AddProdus_Click"/>
+                    <MenuItem Header="_Afișare produse" Click="ShowProduse_Click"/>
+                    <Separator />
+                    <MenuItem Header="_Actualizează produs" Click="UpdateProdus_Click"/>
+                    <MenuItem Header="_Șterge produs" Click="DeleteProdus_Click"/>
+                </MenuItem>
 
-    </Grid>
+                <!-- Comenzi -->
+                <MenuItem Header="_Comenzi">
+                    <MenuItem Header="_Afișează comenzi" Click="ShowComenzi_Click"/>
+                    <MenuItem Header="_Adaugă comandă" Click="AddComanda_Click"/>
+                </MenuItem>
+
+                <!-- Rapoarte -->
+                <MenuItem Header="_Rapoarte">
+                    <MenuItem Header="_Afișează stoc produse" Click="ShowStok_Click"/>
+                    <MenuItem Header="_Afiseaza vânzările de produse" Click="ShowVinzari_Click"/>
+                </MenuItem>
+                <!-- Despre -->
+                <MenuItem Header="_Ajutor">
+                    <MenuItem Header="_Despre" Click="ShowDespre_Click"/>
+                    <MenuItem Header="_Help" Click="ShowHelp_Click"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom"
+                    Background="LightGray">
+            <TextBlock Text="Subsol"/>
+        </StackPanel>
+
+
+        <StackPanel>
+        <!-- Formular pentru produse -->
+        <GroupBox Header="Produs"
+                  x:Name="grbxProdus"
+                  Margin="10"
+                  Padding="5"
+                  Visibility="Hidden">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Denumire:"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="denumireTextBox"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Preț:"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="pretTextBox"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Content="Cantitate:"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="cantitateTextBox"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Content="Data adăugării:"/>
+                <DatePicker Grid.Row="4" Grid.Column="1" x:Name="dataAdaugariiDatePicker"/>
+
+                <Button 
+                    x:Name="btAdauga"
+                    Grid.Row="5" Grid.Column="1" Content="Adaugă produs" Click="AddProdusButton_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Tabel pentru afișarea datelor despre produse -->
+        <GroupBox Header="Produse"
+                  x:Name="grbShowProduse"
+                  Visibility="Hidden">
+            <DataGrid x:Name="produseDataGrid"
+                      FontSize="20"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Produse}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Denumire"
+                                        Binding="{Binding Denumire}"
+                                        MinWidth="250"/>
+                    <DataGridTextColumn Header="Pret"
+                                        Binding="{Binding Pret}"
+                                        MinWidth="70"/>
+                    <DataGridTextColumn Header="Cantitate"
+                                        Binding="{Binding Cantitate}"
+                                        MinWidth="50"/>
+                    <DataGridTextColumn Header="Data adaugarii"
+                                        Binding="{Binding DataAdaugare}"
+                                        MinWidth="150"/>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </GroupBox>
+
+        <!-- Tabel pentru afișarea datelor despre comenzi -->
+        <GroupBox Header="Comenzi"
+                  x:Name="grbxShowComenzi"
+                  Visibility="Hidden">
+            <DataGrid x:Name="comenziDataGrid"
+                      FontSize="20"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Comenzi}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Denumire"
+                                        Binding="{Binding NumeClient}"
+                                        MinWidth="250"/>
+                    <DataGridTextColumn Header="Pret"
+                                        Binding="{Binding Cantitate}"
+                                        MinWidth="70"/>
+                    <DataGridTextColumn Header="Data adaugarii comenzii"
+                                        Binding="{Binding DateAdd}"
+                                        MinWidth="150"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </GroupBox>
+            
+            <!--Formular pentru adaugare comenzi-->
+            <GroupBox Header="Adaugare comanda"
+                      x:Name="grbAddComanda"
+                      Visibility="Hidden">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Produs:"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="produsComboBox" 
+                  DisplayMemberPath="Denumire" 
+                  SelectedValuePath="IdProdus" 
+                  SelectedValue="{Binding Path=IdProdus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=Produse, Mode=OneWay}"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Cantitate:"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="tbCantitate" 
+                 Text="{Binding Path=CantitateComanda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Data comanda:"/>
+                    <DatePicker Grid.Row="2" Grid.Column="1" x:Name="dataComandaDatePicker" 
+                    SelectedDate="{Binding Path=DataComanda, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Nume client:"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="numeClientTextBox" 
+                 Text="{Binding Path=NumeClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Grid.Row="4" Grid.Column="1" x:Name="btSave" Content="Salveaza" Click="SalveazaButton_Click"/>
+
+                    <Button Grid.Row="4" Grid.Column="1" x:Name="btCancel" Content="Anuleaza" Click="AnuleazaButton_Click"/>
+                </Grid>
+
+
+            </GroupBox>
+        </StackPanel>
+    </DockPanel>
 </Window>

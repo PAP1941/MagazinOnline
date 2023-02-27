@@ -1,0 +1,40 @@
+﻿<Window x:Class="AppMagazin.DespreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppMagazin"
+        mc:Ignorable="d"
+        Title="Despre aplicația Magazin" Height="300" Width="400" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titlu -->
+        <TextBlock Text="Magazin" 
+                   FontSize="24" FontWeight="Bold" Margin="10"/>
+
+        <!-- Versiune și drepturi de autor -->
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Text="Versiune: 1.0.0.0"/>
+            <TextBlock Text="© 2023 CIHCAHUL. Toate drepturile rezervate."/>
+        </StackPanel>
+
+        <!-- Descriere -->
+        <TextBlock TextWrapping="Wrap" 
+                   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id leo mi. Vivamus dapibus metus eget consequat euismod. Nam volutpat arcu et velit ultrices faucibus. Aliquam commodo accumsan magna quis consectetur. Praesent et semper ex. Sed commodo blandit nibh, vel rhoncus ex malesuada vitae. Maecenas semper purus at mi malesuada, quis facilisis velit tincidunt. Nulla in risus sed nisi bibendum pretium. Nulla sit amet enim id tellus aliquet ultrices. Duis eget odio lorem. Sed ullamcorper massa vitae lorem elementum sagittis. Duis tristique nulla vitae enim pretium, a scelerisque sapien finibus." 
+                   Margin="10" Grid.Row="2"/>
+
+        <!-- Buton de închidere -->
+        <Button Content="Închide" 
+                Margin="10" 
+                Grid.Row="3" 
+                HorizontalAlignment="Right" 
+                Click="btnClose_Click"/>
+    </Grid>
+</Window>
